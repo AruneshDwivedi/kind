@@ -417,6 +417,14 @@ the project relies on community support and feedback. It has been noted that the
 steps detailed in [https://github.com/spurin/wsl-cgroupsv2](https://github.com/spurin/wsl-cgroupsv2)
 have been necessary to resolve this issue.
 
+## WSL2 Session Affinity and `xt_recent`
+
+If you want to create a Kubernetes Service with `sessionAffinity: ClientIP`, it will not work on WSL2 kernels that lack the `xt_recent` kernel module (used by kube-proxy for session affinity).
+
+**WSL2 kernel versions >= 5.15.90.1** include `xt_recent` by default — check with `uname -r`.
+
+For older kernels, you must compile a custom kernel with `CONFIG_NETFILTER_XT_MATCH_RECENT=y`. See [Using WSL2](/docs/user/using-wsl2/#kubernetes-service-with-session-affinity) for build instructions.
+
 ## Local Subnet Clashes
 
 KIND creates a separate docker network named `kind` that will be configured with default IPAM settings. If you are using the default IPAM configuration in your `daemon.json` you

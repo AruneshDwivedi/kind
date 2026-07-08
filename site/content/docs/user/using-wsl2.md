@@ -96,7 +96,10 @@ Alternatively, see [Helpful Tips for WSL2](#helpful-tips-for-wsl2)
 ## Kubernetes Service with Session Affinity
 
 If you want to create a Kubernetes Service with `sessionAffinity: ClientIP` it will not be accessible (and neither will any Service created afterwards).
-WSL2 kernel is missing `xt_recent` kernel module, which is used by Kube Proxy to implement session affinity. You need to compile a custom kernel to enable this feature.
+
+**WSL2 kernel versions >= 5.15.90.1** include the `xt_recent` kernel module by default, so session affinity works out of the box. Check your kernel version with `uname -r`.
+
+For **older WSL2 kernels**, the `xt_recent` kernel module is missing, which is used by Kube Proxy to implement session affinity. You need to compile a custom kernel to enable this feature.
 
 1. Build a kernel with `xt_recent` kernel module enabled
     {{< codeFromInline lang="bash" >}}
